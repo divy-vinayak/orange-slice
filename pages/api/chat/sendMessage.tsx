@@ -89,17 +89,16 @@ export default async function handler(req) {
     console.log(messagesToInclude);
 
     const stream = await OpenAIEdgeStream(
-      "http://localhost:8001/v1/chat/completions",
+      process.env.MODEL_SERVER_URL + "/v1/chat/completions",
       {
         headers: {
           "content-type": "application/json",
-          // Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
         },
         method: "POST",
         body: JSON.stringify({
-          // model: "gpt-3.5-turbo",
           messages: [initialChatMessage, ...messagesToInclude],
           stream: true,
+          use_context: true
         }),
       },
       {
